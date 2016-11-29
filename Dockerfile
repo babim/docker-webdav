@@ -1,6 +1,6 @@
 FROM babim/alpinebase
 
-RUN apk add --no-cache lighttpd lighttpd-mod_webdav lighttpd-mod_auth
+RUN apk add --no-cache lighttpd lighttpd-mod_webdav lighttpd-mod_auth apache2-utils
 
 VOLUME [ "/config", "/share" ]
 
