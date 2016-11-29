@@ -23,11 +23,12 @@ READWRITE=${READWRITE:=false}
 
 # Add user if it does not exist
 if ! id -u "${USERNAME}" >/dev/null 2>&1; then
-	addgroup -g ${agid:=2222} ${GROUP}
-	adduser -G ${GROUP} -D -H -u ${auid:=2222} ${USERNAME}
+	addgroup -g ${agid} ${GROUP}
+	adduser -G ${GROUP} -D -H -u ${auid} ${USERNAME}
 fi
 
 chown $USERNAME /var/log/lighttpd
+if [ -z "`ls $CLOUDPATH`" ]; then chown -R $auser:$auser $CLOUDPATH; fi
 
 # create config for webdav
 if [ ! -f "$CONFIGPATH/lighttpd.conf" ]; then
@@ -126,15 +127,4 @@ fi
 mkfifo -m 600 /tmp/lighttpd.log
 cat <> /tmp/lighttpd.log 1>&2 &
 chown $USERNAME /tmp/lighttpd.log
-
-# mount amazon cloud drive to CLOUD PATH
-if [[ "$auid" = "0" ]] || [[ "$aguid" == "0" ]]; then
-    acdcli s
-    acdcli mount -ao $CLOUDPATH
-else
-    chown -R $auid:$agid $CLOUDPATH
-    su -c 'acdcli s' $auser
-    su -c 'acdcli mount -ao $CLOUDPATH' $auser
-fi
-
 lighttpd -D -f $CONFIGPATH/lighttpd.conf 2>&1
