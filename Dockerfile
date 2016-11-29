@@ -1,12 +1,8 @@
-FROM alpine:3.4
-MAINTAINER Jeroen Geusebroek <me@jeroengeusebroek.nl>
+FROM babim/alpinebase
 
-ENV PACKAGE_LIST="lighttpd lighttpd-mod_webdav lighttpd-mod_auth" \
-    REFRESHED_AT='2015-01-21'
+RUN apk add --no-cache lighttpd lighttpd-mod_webdav lighttpd-mod_auth
 
-RUN apk add --no-cache ${PACKAGE_LIST}
-
-VOLUME [ "/config", "/webdav" ]
+VOLUME [ "/config", "/share" ]
 
 ADD files/* /etc/lighttpd/
 ADD ./entrypoint.sh /entrypoint.sh
