@@ -1,4 +1,4 @@
-[![](https://badge.imagelayers.io/jgeusebroek/webdav:latest.svg)](https://imagelayers.io/?images=jgeusebroek/webdav:latest 'Get your own badge on imagelayers.io')
+thanks jgeusebroek
 
 # Docker WebDAV image
 
@@ -11,11 +11,11 @@ Linux and [Lighttpd](https://www.lighttpd.net/).
 		-p 0.0.0.0:80:80 \
 		--hostname=webdav \
 		--name=webdav \
-		-v /<host_directory_to_share>:/webdav \
-		jgeusebroek/webdav
+		-v /<host_directory_to_share>:/share \
+		babim/webdav
 
 By default the WebDAV server is password protected with user `webdav` and
-password `davbew` which obviously isn't really secure.
+password `webdav` which obviously isn't really secure.
 This can easily be overwritten, by creating a `config directory` on the host
 with an *htpasswd* file and mounting this as a volume on `/config`.
 
@@ -35,8 +35,9 @@ rerouted so they can be capture by the regular Docker logging facilities.
 
 ## Optional environment variables
 
-* `USER_UID` User ID of the lighttpd daemon account (default: 2222).
-* `USER_GID` Group ID of the lighttpd daemon account (default: 2222).
+* `auid` User ID of the lighttpd daemon account (default: 2222).
+* `agid` Group ID of the lighttpd daemon account (default: 2222).
+* `WEBDAVPASS` default webdav
 * `WHITELIST` Regexp for a list of IP's (default: none). Example: `-e WHITELIST='192.168.1.*|172.16.1.2'`
 * `READWRITE` When this is set to `true`, the WebDAV share can be written to (default: false). Example: `-e READWRITE=true`
 * `OWNERSHIP` When this is set to `true`, ownership of the `/webdav` data directory is forced to the user and group.  This is necessary if you want to be able to write to the directory, and is probably safe when mounting volumes.
@@ -48,8 +49,3 @@ have a (custom) configuration yet.
 ## License
 
 MIT / BSD
-
-## Author Information
-
-[Jeroen Geusebroek](http://jeroengeusebroek.nl/)
-[Emmanuel Frecon](https://github.com/efrecon/)
