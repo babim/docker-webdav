@@ -4,7 +4,6 @@ RUN apk add --no-cache lighttpd lighttpd-mod_webdav lighttpd-mod_auth apache2-ut
 
 VOLUME [ "/config", "/share" ]
 
-ADD files/* /etc/lighttpd/
 ADD ./entrypoint.sh /entrypoint.sh
 
 EXPOSE 80
